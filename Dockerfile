@@ -51,7 +51,7 @@ RUN wget http://cern.ch/geant4-data/releases/geant4.10.01.p03.tar.gz \
        libmotif-dev \
     && cd geant4.10.01.p03 \
     && mkdir build \
-    &&rm -f geant4.10.01.p03.tar.gz
+    && rm -f geant4.10.01.p03.tar.gz
 
 WORKDIR /home/neutrino/software/geant4.10.01.p03/build 
 
