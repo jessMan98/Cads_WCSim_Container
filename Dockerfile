@@ -15,8 +15,9 @@ WORKDIR /home/neutrino/software
 
 RUN wget https://root.cern.ch/download/root_v5.34.38.source.tar.gz \
     && tar -xzvf root_v5.34.38.source.tar.gz \
-    && mv root root_v5.34.38 
-    
+    && mv root root_v5.34.38 \
+    && rm -f root_v5.34.38.source.tar.gz     
+
 WORKDIR /home/neutrino/software/root_v5.34.38
 
 RUN apt-get install -y\
@@ -29,6 +30,7 @@ RUN apt-get install -y\
     libmysqlclient-dev libfftw3-dev libcfitsio-dev graphviz-dev \
     libavahi-compat-libdnssd-dev libldap2-dev python-dev libxml2-dev libkrb5-dev \ 
     libgsl0-dev libqt4-dev \
+    && rm -rf var/lib/apt/lists/* \
     && mkdir install
 
 RUN cd install \
@@ -48,7 +50,8 @@ RUN wget http://cern.ch/geant4-data/releases/geant4.10.01.p03.tar.gz \
        libcoin80-dev \
        libmotif-dev \
     && cd geant4.10.01.p03 \
-    && mkdir build
+    && mkdir build \
+    &&rm -f geant4.10.01.p03.tar.gz
 
 WORKDIR /home/neutrino/software/geant4.10.01.p03/build 
 
