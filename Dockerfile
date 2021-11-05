@@ -1,6 +1,7 @@
+
 FROM ubuntu:18.04
 
-MAINTAINER Many CADS
+LABEL Many CADS
 
 SHELL ["/bin/bash", "-c"] 
 
