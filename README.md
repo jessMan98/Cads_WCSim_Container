@@ -1,4 +1,7 @@
 # WCSim_Cads_Docker
 Herramienta para Ciencia de Datos
 
-Creación de una imagen de esta herramienta en Docker.
+Creacion de la imgen de WCSim en Docker
+
+
+Archivo de Entrada a ejecutar dentro del contenedor.
