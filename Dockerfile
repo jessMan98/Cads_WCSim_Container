@@ -49,9 +49,10 @@ RUN wget http://cern.ch/geant4-data/releases/geant4.10.01.p03.tar.gz \
        xorg-dev \
        libcoin80-dev \
        libmotif-dev \
+    && rm -f geant4.10.01.p03.tar.gz \
     && cd geant4.10.01.p03 \
-    && mkdir build \
-    && rm -f geant4.10.01.p03.tar.gz
+    && mkdir build 
+  
 
 WORKDIR /home/neutrino/software/geant4.10.01.p03/build 
 
