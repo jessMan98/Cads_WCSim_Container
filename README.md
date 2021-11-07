@@ -1,10 +1,8 @@
-# CADS Automatizaciòn 
-## Herramienta para Ciencia de Datos
+# CADS:WCSim
+Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 
 
-
-
-Archivo de Entrada a ejecutar dentro del contenedor.
+## Automatización en contenedor Docker WCSim
 
 La imagen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 
@@ -12,7 +10,7 @@ La imagen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 2. Una vez ubicada la ruta del archivo crear un contenedor para ligar la carpeta del host al contenedor:
    * sudo docker run -v <directorio_Host> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim wcsim:1.1
    
-3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta y el archivo .mac
+3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta y el < archivo >.mac
 
 5. Lo siguiente es correr la aplicacion con el archivo de entrada .mac
     * sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; ./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac"
