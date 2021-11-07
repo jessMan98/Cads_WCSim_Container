@@ -1,18 +1,20 @@
 # WCSim_Cads_Docker
 Herramienta para Ciencia de Datos
 
-Creacion de la imgen de WCSim en Docker
+
 
 
 Archivo de Entrada a ejecutar dentro del contenedor.
-La imagen de WCSim a utilizar se creo desde cero: 
+
+La imagen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 
 1. Crear una carpeta en el host local que contenga el archivo.mac
 2. Una vez ubicada la ruta del archivo crear un contenedor para ligar la carpeta del host al contenedor:
    * sudo docker run -v <directorio_Host> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim wcsim:1.1
    
 3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta y el archivo .mac
-4. Lo siguiente es correr la aplicacion con el archivo de entrada .mac
+
+5. Lo siguiente es correr la aplicacion con el archivo de entrada .mac
     * sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; ./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac"
   
 5. Despues se genera el archivo.root
