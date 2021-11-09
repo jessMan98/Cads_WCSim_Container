@@ -6,7 +6,7 @@ Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 
 La imagen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 
-1. Crear una carpeta en el host local que contenga el archivo.mac
+1. Crear una carpeta en el host local que contenga el archivo.mac 
 2. Una vez ubicada la ruta del archivo crear un contenedor para ligar la carpeta del host al contenedor:
    * sudo docker run -v <directorio_Host> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim wcsim:1.1
    
