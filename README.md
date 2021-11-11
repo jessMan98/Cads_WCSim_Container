@@ -8,7 +8,7 @@ La imagen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 
 1. Crear una carpeta en el host local que contenga el archivo.mac 
 2. Una vez ubicada la ruta del archivo crear un contenedor para ligar la carpeta del host al contenedor:
-   * sudo docker run -v <directorio_Host> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim wcsim:1.1
+   * sudo docker run -v <directorio local> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim wcsim:1.1
    
 3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta y el < archivo >.mac
 
