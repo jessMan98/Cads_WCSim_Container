@@ -13,7 +13,7 @@ La imagen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta y el < archivo >.mac
 
 5. Lo siguiente es correr la aplicacion con el archivo de entrada .mac
-    * sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; ./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac"
+    * sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; rm /home/neutrino/wcsim/mac_files/wcsim_output.root;./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/neutrino/wcsim/mac_files "
   
 5. Con el paso anterior se genera el archivo.root el cual se ubica en la siguiente ruta: /home/neutrino/software/WCSim_build dentro del contenedor.
 6.  Copiaremos el archivo.root a nuestra carpeta compartida que se encuentra en el contenedor:
