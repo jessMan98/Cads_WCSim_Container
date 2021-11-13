@@ -1,5 +1,5 @@
 #!/bin/bash 
-export SOFTWARE=/home/manuel/software
+export SOFTWARE=/home/neutrino/software
 export GEANT4_BASE_DIR=$SOFTWARE/geant4.10.01.p03/install
 export G4WORKDIR=$PWD
 
