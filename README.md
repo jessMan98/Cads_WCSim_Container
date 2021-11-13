@@ -11,7 +11,7 @@ La imágen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim/tags
    **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
 
 3. Una vez ubicada la ruta del archivo, crear un contenedor para ligar la carpeta creada en el paso 1 al contenedor:
-   * sudo docker run -v <directorio_local> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim wcsim:1.1   
+   * sudo docker run -v <directorio_local> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim manu33/wcsim:1.1   
    
 3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta y el < archivo >.mac
 
