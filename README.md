@@ -43,8 +43,12 @@ El módulo de python a utilizar es "event_dump.py".
 
 **Ejecutamos la instrucción:**
 
-sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/wcsim/mac_files/wcsim_output.root /home/neutrino/wcsim/mac_files"
+* sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/wcsim/mac_files/wcsim_output.root /home/neutrino/wcsim/mac_files"
   
 Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ files/** aparecerá un archivo comprimido ".npz" resultado de la rutina ejecutada en python.
   
-  
+# Convertir archivo .npz a .npy
+
+
+
+
