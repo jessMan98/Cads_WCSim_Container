@@ -9,10 +9,13 @@ La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsi
     ```Docker
     sudo docker pull manu33/wcsim:1.2
     ```
-1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac, puedes utilizar como ejemplo la carpeta que se encuentra en este repositorio:
-   **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
 
-3. Una vez ubicada la ruta del archivo, crear un contenedor para ligar la carpeta creada en el paso 1 al contenedor:
+1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac.
+
+    * Puedes utilizar como ejemplo la carpeta que se encuentra en este          repositorio:     
+        **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
+
+2. Una vez ubicada la ruta del archivo, crear un contenedor para ligar la carpeta creada en el paso 1 al contenedor:
     
         sudo docker run -v <directorio_local> :/home/neutrino/wcsim/mac_files -d -it --name=WCSim manu33/wcsim:1.2  
    
@@ -61,8 +64,8 @@ ___
 
         sudo docker run -v <directorio_local>:<directorio_dentro_del_contenedor> -d -it --name="WCSim2" manu33/wcsim:1.2
     
-* <directorio_local> = directorio creado en el paso 1.
-* <directorio_dentro_del_contenedor> = puedes crearlo en cualquier ruta, de preferencia en /home/neutrino.
+* **<directorio_local>** = directorio creado en el paso 1.
+* **<directorio_dentro_del_contenedor>** = puedes crearlo en cualquier ruta, de preferencia en /home/neutrino.
 
   Por ejemplo:
         
@@ -76,9 +79,9 @@ ___
       * **< archivos >.npz** : se encuentran en nuestra carpeta compatida dentro del contenedor -> _"/home/neutrino/ImageData/Npz_files"_
 
       
-```
-sudo docker exec -it <nombre_contenedor> bash -c "rm /home/neutrino/software/WCSim_build/*.npy;python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/" 
-```
+    ```
+    sudo docker exec -it <nombre_contenedor> bash -c "rm /home/neutrino/software/WCSim_build/*.npy;python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/" 
+    ```
 5. Después de este paso podemos visualizar en nuestra máquina local los archivos de salida **.npy**
 ___
 
