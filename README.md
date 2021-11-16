@@ -5,8 +5,10 @@ Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 
 La imágen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 
-* Para descargar la imágen ejecutamos lo siguiente: **sudo docker pull manu33/wcsim:1.2**
-
+* Para descargar la imágen ejecutamos lo siguiente: 
+  ```
+  sudo docker pull manu33/wcsim:1.2 
+  ```
 1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac, puedes utilizar como ejemplo la carpeta que se encuentra en este repositorio:
    **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
 
@@ -70,10 +72,11 @@ Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ fil
       * npz_to_image.py : se encuentra en la siguiente carpeta dentro del contenedor -> "/home/Tools_HKM/npz_to_image.py"
       * IWCD_geometry_mPMT.npy: se encuentra en nuestra carpeta compartida dentro del contenedor -> "/home/neutrino/ImageData/Geometry"
       * <archivos>.npz : se encuentran en nuestra carpeta compatida dentro del contenedor -> "/home/neutrino/ImageData/Npz_files"
-
       
-sudo docker exec -it WCSim2 bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/"
+```
+  sudo docker exec -it WCSim2 bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/"
 
+```
 
 ## Estructura de carpetas dentro del contenedor
 
