@@ -6,9 +6,9 @@ Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "Imagen WCSim")
 
 * Para descargar la imágen ejecutamos lo siguiente: 
-```Docker
-sudo docker pull manu33/wcsim:1.2
-```
+    ```Docker
+    sudo docker pull manu33/wcsim:1.2
+    ```
 1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac, puedes utilizar como ejemplo la carpeta que se encuentra en este repositorio:
    **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
 
