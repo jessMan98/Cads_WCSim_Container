@@ -3,12 +3,12 @@ Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 
 ## Automatización en contenedor Docker WCSim
 
-La imágen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
+La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "Imagen WCSim")
 
 * Para descargar la imágen ejecutamos lo siguiente: 
-  ```
-  sudo docker pull manu33/wcsim:1.2 
-  ```
+```Docker
+sudo docker pull manu33/wcsim:1.2
+```
 1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac, puedes utilizar como ejemplo la carpeta que se encuentra en este repositorio:
    **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
 
@@ -33,7 +33,7 @@ La imágen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
   * Por último movemos ese archivo a nuestra carpeta compartida.
 
 6. Efectuando el paso anterior podemos visualizar en la carpeta de nuestra máquina local el archivo .root
-
+___
 ## Ejecutar rutina de python en WCSim
 Una vez ejecutados los pasos anteriores procedemos a convertir el archivo.root a archivo ".npz".
 
@@ -50,7 +50,7 @@ El módulo de python a utilizar es "event_dump.py".
     sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/wcsim/mac_files/wcsim_output.root /home/neutrino/wcsim/mac_files"
   
 Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ files/** aparecerá un archivo comprimido ".npz" resultado de la rutina ejecutada en python.
-  
+___
 ## Convertir archivo .npz a .npy
 
 1. Descargamos los archivos: "Npz_files" y "Geometry" que se encuentran en este repositorio.
@@ -72,11 +72,14 @@ Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ fil
       * npz_to_image.py : se encuentra en la siguiente carpeta dentro del contenedor -> "/home/Tools_HKM/npz_to_image.py"
       * IWCD_geometry_mPMT.npy: se encuentra en nuestra carpeta compartida dentro del contenedor -> "/home/neutrino/ImageData/Geometry"
       * <archivos>.npz : se encuentran en nuestra carpeta compatida dentro del contenedor -> "/home/neutrino/ImageData/Npz_files"
+
       
 ```
-  sudo docker exec -it WCSim2 bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/"
+
+sudo docker exec -it <nombre_contenedor> bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/" 
 
 ```
+___
 
 ## Estructura de carpetas dentro del contenedor
 
