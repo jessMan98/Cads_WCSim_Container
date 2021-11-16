@@ -3,9 +3,9 @@ Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 
 ## Automatización en contenedor Docker WCSim
 
-La imágen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim/tags
+La imágen de WCSim a utilizar: https://hub.docker.com/r/manu33/wcsim
 
-* Para descargar la imágen ejecutamos lo siguiente: **sudo docker pull manu33/wcsim:1.1**
+* Para descargar la imágen ejecutamos lo siguiente: **sudo docker pull manu33/wcsim:1.2**
 
 1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac, puedes utilizar como ejemplo la carpeta que se encuentra en este repositorio:
    **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
@@ -49,8 +49,20 @@ Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ fil
   
 ## Convertir archivo .npz a .npy
 
-## Estructura de carpetas
+## Estructura de carpetas dentro del contenedor
 
+* /home/neutrino : **usuario**
+* /home/neutrino/software/run.sh : **_script que ejecuta las variables de entorno_** 
+* /home/WatChMal/DataTools/*.py : **_modulos de python_**
+* /home/Tools_HKM/npz_to_image.py
+* /home/neutrino/software/WCSim_build : **_ruta donde se guardan por defecto archivos de salida ".root" y ".npy"_**
+
+## Directorios de prueba
+* /wcsim/mac_files/WCSim.mac : **_archivo .mac de prueba_** 
+
+  **Nota:** (se puede cambiar el nombre del directorio si el usuario lo desea), (el archivo .mac de prueba quitarlo y poner un .mac personalizado).
+* /Npz_files/*.npz : **archivos .npz** de prueba.
+* /Geometry/IWCD_geometry_mPMT.npy
 
 
 
