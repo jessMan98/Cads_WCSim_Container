@@ -61,7 +61,7 @@ Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ fil
 * /wcsim/mac_files/WCSim.mac : **_archivo .mac de prueba_** 
 
   **Nota:** (se puede cambiar el nombre del directorio si el usuario lo desea), (el archivo .mac de prueba quitarlo y poner un .mac personalizado).
-* /Npz_files/*.npz : **archivos .npz** de prueba.
+* /Npz_files/*.npz : archivos **.npz** de prueba.
 * /Geometry/IWCD_geometry_mPMT.npy
 
 
