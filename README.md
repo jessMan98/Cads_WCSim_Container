@@ -69,32 +69,30 @@ ___
 4. Corremos la instrucción que convertirá los archivos .npz del directorio Npz_files a ".npy"
   * La instrucción toma 3 archivos:
   
-      * npz_to_image.py : se encuentra en la siguiente carpeta dentro del contenedor -> "/home/Tools_HKM/npz_to_image.py"
-      * IWCD_geometry_mPMT.npy: se encuentra en nuestra carpeta compartida dentro del contenedor -> "/home/neutrino/ImageData/Geometry"
-      * <archivos>.npz : se encuentran en nuestra carpeta compatida dentro del contenedor -> "/home/neutrino/ImageData/Npz_files"
+      * **npz_to_image.py** : se encuentra en la siguiente carpeta dentro del contenedor -> _"/home/Tools_HKM/npz_to_image.py"_
+      * **IWCD_geometry_mPMT.npy** : se encuentra en nuestra carpeta compartida dentro del contenedor -> _"/home/neutrino/ImageData/Geometry"_
+      * **< archivos >.npz** : se encuentran en nuestra carpeta compatida dentro del contenedor -> _"/home/neutrino/ImageData/Npz_files"_
 
       
 ```
-
 sudo docker exec -it <nombre_contenedor> bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/" 
-
 ```
 ___
 
 ## Estructura de carpetas dentro del contenedor
 
-* /home/neutrino : **usuario**
-* /home/neutrino/software/run.sh : **_script que ejecuta las variables de entorno_** 
-* /home/WatChMal/DataTools/*.py : **_modulos de python_**
-* /home/Tools_HKM/npz_to_image.py
-* /home/neutrino/software/WCSim_build : **_ruta donde se guardan por defecto archivos de salida ".root" y ".npy"_**
+* **/home/neutrino:** _usuario_
+* **/home/neutrino/software/run.sh:**  _script que ejecuta las variables de entorno_
+* **/home/WatChMal/DataTools/*.py:** _modulos de python_
+* **/home/Tools_HKM/npz_to_image.py**
+* **/home/neutrino/software/WCSim_build :** _ruta donde se guardan por defecto archivos de salida ".root" y ".npy"_
 
 ## Directorios de prueba
-* /wcsim/mac_files/WCSim.mac : **_archivo .mac de prueba_** 
+* **/wcsim/mac_files/WCSim.mac:** _archivo .mac de prueba_. 
 
   **Nota:** (se puede cambiar el nombre del directorio si el usuario lo desea), (el archivo .mac de prueba quitarlo y poner un .mac personalizado).
-* /Npz_files/*.npz : archivos **.npz** de prueba.
-* /Geometry/IWCD_geometry_mPMT.npy
+* **/Npz_files :** archivos _.npz_ de prueba.
+* **/Geometry/IWCD_geometry_mPMT.npy**
 
 
 
