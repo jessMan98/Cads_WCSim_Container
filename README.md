@@ -47,7 +47,9 @@ El módulo de python a utilizar es "event_dump.py".
   
 Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ files/** aparecerá un archivo comprimido ".npz" resultado de la rutina ejecutada en python.
   
-# Convertir archivo .npz a .npy
+## Convertir archivo .npz a .npy
+
+## Estructura de carpetas
 
 
 
