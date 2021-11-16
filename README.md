@@ -3,7 +3,7 @@ Herramienta para ciencia datos hecha dentro de un contenedor en Docker
 
 ## Automatización en contenedor Docker WCSim
 
-La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "Imagen WCSim")
+La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim")
 
 * Para descargar la imágen ejecutamos lo siguiente: 
     ```Docker
@@ -20,7 +20,7 @@ La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsi
 
 4. Lo siguiente es correr la aplicación con el archivo de entrada .mac:
 
-        sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; rm /home/neutrino/wcsim/mac_files/wcsim_output.root;./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/neutrino/wcsim/mac_files "
+    sudo docker exec -it <nombre_contenedor> bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; rm /home/neutrino/wcsim/mac_files/wcsim_output.root;./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/neutrino/wcsim/mac_files "
 
     **Nota**: El nombre que se genera por defecto del archivo de salida .root es: **wcsim_output.root** el nombre puede cambiar dependiendo la configuración
     del archivo ".mac". Puedes modificar el nombre en la linea 147 dentro del archivo ".mac". Si lo modificas, en la instrucción anterior reemplaza
@@ -75,8 +75,9 @@ ___
 
       
 ```
-sudo docker exec -it <nombre_contenedor> bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/" 
+sudo docker exec -it <nombre_contenedor> bash -c "rm /home/neutrino/software/WCSim_build/*.npy;python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/ImageData/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/ImageData/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/ImageData/" 
 ```
+5. Después de este paso podemos visualizar en nuestra máquina local los archivos de salida **.npy**
 ___
 
 ## Estructura de carpetas dentro del contenedor
