@@ -99,6 +99,37 @@ ___
   **Nota:** (se puede cambiar el nombre del directorio si el usuario lo desea), (el archivo .mac de prueba quitarlo y poner un .mac personalizado).
 * **/Npz_files :** archivos _.npz_ de prueba.
 * **/Geometry/IWCD_geometry_mPMT.npy**
+___
+
+# Singularity
+Utilizaremos la imagen que se encuentra en Dockerhub [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim") la version de la imagen es la 1.2
+
+1. Creamos un directorio en nuestra maquina local llamado: **wcsim-dir**, puedes nombrarlo como quieras y crearlo en cualquier ruta. En este ejemplo, el directorio esta creado en la carpeta personal. Lo que haremos sera crear un **_sandbox_** (un directorio raiz de escritura) para poder manejar las herramientas y archivos que se encuentran en el contenedor.
+
+2. Una vez creado el directorio, procedemos a ejecutar la siguiente instruccion:
+
+    ```
+    sudo singularity build --sandbox wcsim-dir/ docker://manu33/wcsim:1.2
+    ```
+  * En la instruccion anterior el comando build construira la imagen de docker a una imagen de singularity.
+  * La opcion **_--sandbox_** nos permite crear el directorio raiz de escritura.
+  * **_wcsim-dir_** es el directorio que creamos en el paso 1.
+  * Por ultimo, lo que resta de la instruccion es la imagen a descargar de la plataforma de Dockerhub.
+
+    _Este paso puede tardar algunos minutos dependiendo los recursos de tu maquina._
+  
+
+3. Creamos una instancia de nuestro contenedor con el siguiente comando:
+
+    ```
+    sudo singularity instance start wcsim-dir/ WCSim
+    ```
+## **Nota:**
+
+Una de los aspectos clave de **Singularity** es que debemos ingresar al contenedor con permisos de superusuario, ya que si no lo hacemos no vamos a poder instalar programas o hacer cualquier accion que involucre privilegios dentro del contenedor. 
+
+Para resolver esto necesitamos agregar **sudo** y la opcion **--writable**, esta opcion nos permite modificar el contenedor.
+
 
 
 
