@@ -102,7 +102,7 @@ ___
 ___
 
 # Singularity
-Utilizaremos la imagen que se encuentra en Dockerhub [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim") la version de la imagen es la 1.2
+Utilizaremos la imagen que se encuentra en [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim") la version de la imagen es la 1.2
 
 1. Creamos un directorio en nuestra maquina local llamado: **wcsim-dir**, puedes nombrarlo como quieras y crearlo en cualquier ruta. En este ejemplo, el directorio esta creado en la carpeta personal. Lo que haremos sera crear un **_sandbox_** (un directorio raiz de escritura) para poder manejar las herramientas y archivos que se encuentran en el contenedor.
 
