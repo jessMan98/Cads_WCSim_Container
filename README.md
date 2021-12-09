@@ -108,7 +108,7 @@ Utilizaremos la imagen de WCSim que se encuentra en [Dockerhub](https://hub.dock
 ___
 ## **Convertir archivo _.mac_ a _.root_** 
 
-  Nota:
+  **Nota**:
         En singularity es importante utilizar sudo en cada instrucción, esto para poder tener permisos de superusuario dentro del contenedor.
 
 1. Al momento de descargar la imagen la convertiremos en un _directory sandbox_(directorio de lectura y escritura) para poder modificar nuestro contenedor.
