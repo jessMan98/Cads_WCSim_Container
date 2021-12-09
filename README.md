@@ -251,5 +251,7 @@ ___
   **Nota:** (se puede cambiar el nombre del directorio si el usuario lo desea), (el archivo .mac de prueba quitarlo y poner un .mac personalizado).
 * **/Npz_files :** archivos _.npz_ de prueba.
 * **/Geometry/IWCD_geometry_mPMT.npy**
-
+___
+## Maintained by:
+Many (CADS)
 
