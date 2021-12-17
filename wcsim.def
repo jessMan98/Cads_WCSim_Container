@@ -7,18 +7,20 @@ From: ubuntu:18.04
 
 %post
     apt-get update -y && apt-get upgrade -y \
-    && apt-get install wget git python python3 cmake python3-dev python3-pip -y --no-install-recommends 
+    && apt-get install wget git python python3 cmake python3-dev python3-pip -y --no-install-recommends
+    pip3 install --upgrade setuptools
+    pip3 install --upgrade pip
+    pip3 install matplotlib
+    pip3 install pandas  
+
     useradd -m neutrino 
     cd /home/neutrino 
     mkdir software
 
-    pip3 install numpy
-    apt-get install python3-matplotlib
-    pip3 install pandas
-
 %post -c /bin/bash
 
     # Instalacion de Root
+
     cd /home/neutrino/software 
     wget https://root.cern.ch/download/root_v5.34.38.source.tar.gz 
     tar -xzvf root_v5.34.38.source.tar.gz 
@@ -42,11 +44,12 @@ From: ubuntu:18.04
     mkdir install 
     cd install
     
-    #Compilacion
+    # Compilacion
+
     cmake -DPYTHON_EXECUTABLE=$(which python3) ..
     cmake --build .
 
-    #Instalacion de Geant4
+    # Instalacion de Geant4
 
     cd /home/neutrino/software
     wget http://cern.ch/geant4-data/releases/geant4.10.01.p03.tar.gz 
@@ -106,10 +109,10 @@ From: ubuntu:18.04
     libpth-dev 
 
 %files 
-   /home/many/WCSim /home/neutrino/software/WCSim
-   /home/many/run.sh /home/neutrino/software
-   /home/many/npz_to_image.py /home/Tools_HKM/npz_to_image.py
-   /home/many/pys /home/WatChMal/DataTools
+   /home/many/Configuracion_wcsim/WCSim /home/neutrino/software/WCSim
+   /home/many/Configuracion_wcsim/run.sh /home/neutrino/software
+   /home/many/Configuracion_wcsim/npz_to_image.py /home/Tools_HKM/npz_to_image.py
+   /home/many/Configuracion_wcsim/pys /home/WatChMal/DataTools
 
 
 %post -c /bin/bash
