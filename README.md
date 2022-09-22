@@ -4,127 +4,168 @@
 
 La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim")
 
-* Para descargar la imágen ejecutamos lo siguiente: 
-    ```Docker
+1. Descargar la imágen: 
+    ```
     sudo docker pull manu33/wcsim:1.2
     ```
-1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac.
-
-    * Puedes utilizar como ejemplo la carpeta que se encuentra en este repositorio:     
-        **wcsim/mac_files/WCSim.mac**, este directorio es de prueba asi como el archivo.mac, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.mac** que se va a utilizar. 
-
-2. Una vez ubicada la ruta del archivo, crear un contenedor para ligar la carpeta creada en el paso 1 al contenedor:
+2. Dentro del directorio **data/mac_files** se encuentra el archivo **.mac** de ejemplo a procesar.
+ 
+3. Una vez ubicada la ruta del archivo, crear el contenedor para vincular el directorio local **/data** dentro del contenedor:
     
     ```
-    sudo docker run -v /home/many/Escritorio/wcsim/:/home/neutrino/wcsim/ -d -it --name=WCSim manu33/wcsim:1.2  
+    sudo docker run -v /home/user/Cads_WCSim_Container/data/:/home/neutrino/data/ -d -it --name=WCSim manu33/wcsim:1.2  
     ```
 
-    * **/home/many/Escritorio/wcsim/** ruta del directorio local a vincular.
-    * **/home/neutrino/wcsim/** es la ruta del directorio compartido dentro del contenedor.
-    * **--name** nos permite darle un nombre al contenedor, en este caso es: **WCSim**.
+    * **/home/user/Cads_WCSim_Container/data/**: Ruta del directorio local a vincular. Cambiar la ruta de acuerdo a tu usuario.  
+    * **/home/neutrino/data/**: Ruta del directorio compartido dentro del contenedor.
+    * **--name= WCSim**: Nombre del contenedor.
 
-3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta compartida.
+4. Hecho este paso, podemos visualizar dentro del contenedor la carpeta compartida **data**.
 
     ```
     sudo docker exec -it WCSim bash -c "ls /home/neutrino"
     ```
 
-4. Lo siguiente es correr la aplicación con el archivo de entrada .mac:
+5. Lo siguiente es correr la aplicación con el archivo de entrada **.mac**:
 
     ```
-    sudo docker exec -it WCSim bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; rm /home/neutrino/wcsim/mac_files/wcsim_output.root;./WCSim /home/neutrino/wcsim/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/neutrino/wcsim/mac_files"
+    sudo docker exec -it WCSim bash -c "cd /home/neutrino/software; source run.sh; rm /home/neutrino/data/mac_files/wcsim_output.root;./WCSim /home/neutrino/data/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/neutrino/data/root_files"
     ```
 
     **Nota**: El nombre que se genera por defecto del archivo de salida .root es: **wcsim_output.root** el nombre puede cambiar dependiendo la configuración
-    del archivo ".mac". Puedes modificar el nombre en la linea 147 dentro del archivo ".mac". Si lo modificas, en la instrucción anterior reemplaza
+    del archivo **".mac"**. Puedes modificar el nombre en la linea **147** dentro del archivo **".mac"**. Si lo modificas, en la instrucción anterior reemplaza
     **wcsim_output.root** por el nuevo nombre.
 
     La instrucción anterior hace lo siguiente:
     * Ejecuta el archivo .sh que contiene las variables de entorno para correr WCSim.
-    * Borra el archivo de salida .root (si es que hay, esto para obtener un nuevo archivo de salida).
-    * Ejecuta el archivo de < entrada >.mac, con esto se genera nuestro nuevo < archivo >.root 
-    * Por último movemos ese archivo a nuestra carpeta compartida.
+    * Borra el archivo de salida **.root** (si es que hay, esto para obtener un nuevo archivo de salida).
+    * Ejecuta el archivo de **< entrada >.mac**, con esto se genera nuestro nuevo **< archivo >.root**. 
+    * Por último movemos ese archivo al directorio **root_files** que contendrá todos los archivos **.root** generados.
 
-5. Efectuando el paso anterior podemos visualizar en la carpeta de nuestra máquina local el archivo .root
+Efectuando el paso anterior podemos visualizar en el directorio **/data/root_files** de nuestra máquina local el archivo **.root**.
 ___
 ## **Convertir archivo _.root_ a _.npz_ con rutina de python**
 La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim")
 
-* Para descargar la imágen ejecutamos lo siguiente: 
+1. Descargar la imágen: 
     ```
     sudo docker pull manu33/wcsim:1.2
     ```
-1. Creamos una carpeta en nuestra máquina local que contenga el archivo.mac.
+2. El directorio **data/root_files** contiene los archivos .**root** de prueba, si no los hay, ejecutar el proceso **mac a root** o agregar tus archivos **.root** a procesar.
 
-    * Puedes utilizar como ejemplo la carpeta que se encuentra en este          repositorio:     
-        **wcsim/mac_files/**, este directorio es de prueba asi como el archivo.root, puedes cambiarle el nombre a las carpetas, lo importante es que dentro de    ellas contenga el **archivo.root** que se va a utilizar. 
-
-2. Una vez ubicada la ruta del archivo, crear un contenedor para ligar la carpeta creada en el paso 1 al contenedor:
+3. Una vez ubicada la ruta del archivo, crear un contenedor para vincular el directorio local **/data** al contenedor:
     
     ```
-    sudo docker run -v /home/many/Escritorio/wcsim/:/home/neutrino/wcsim/ -d -it --name=WCSim manu33/wcsim:1.2  
+    sudo docker run -v /home/user/Cads_WCSim_Container/data/:/home/neutrino/data/ -d -it --name=WCSim manu33/wcsim:1.2  
     ```
+    * **/home/user/Cads_WCSim_Container/data/**: Ruta del directorio local a vincular. Cambiar la ruta de acuerdo a tu usuario.  
+    * **/home/neutrino/data/**: Ruta del directorio compartido dentro del contenedor.
+    * **--name= WCSim**: Nombre del contenedor.
 
-    * **/home/many/Escritorio/wcsim/** ruta del directorio local a vincular.
-    * **/home/neutrino/wcsim/** es la ruta del directorio compartido dentro del contenedor.
-    * **--name** nos permite darle un nombre al contenedor, en este caso es: **WCSim**.
-
-3. Hecho este paso, podemos visualizar dentro del contenedor la carpeta compartida.
+4. Hecho este paso, podemos visualizar dentro del contenedor la carpeta compartida.
 
     ```
     sudo docker exec -it WCSim bash -c "ls /home/neutrino"
     ```
 
-    Los módulos de python para ejecutar la rutina se encuentra en la siguiente ruta dentro del contenedor:
+    * Los módulos de python para ejecutar la rutina se encuentra en la siguiente ruta dentro del contenedor: **/home/WatChMal/DataTools**
 
-    **/home/WatChMal/DataTools**
-
-    El módulo de python a utilizar es "event_dump.py".
+        El módulo de python a utilizar es **"event_dump.py"**.
 
 **Ejecutamos la instrucción:**
 
-    sudo docker exec -it WCSim bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/wcsim/mac_files/wcsim_output.root /home/neutrino/wcsim/mac_files"
+    sudo docker exec -it WCSim bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/data/root_files/wcsim_output.root; mv /home/neutrino/data/root_files/wcsim_output.npz /home/neutrino/data/Npz_files"
   
-Enseguida si visualizamos en nuestra máquina local la carpeta **/wcsim/mac_ files/** aparecerá un archivo comprimido ".npz" resultado de la rutina ejecutada en python.
+Enseguida si visualizamos en nuestra máquina local el directorio **/data/root_files/** aparecerá un archivo comprimido **".npz"** resultado de la rutina ejecutada en python.
 ___
 ## **Convertir archivo .npz a .npy (Npz_to_Image)**
 
 La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsim "manu33/wcsim")
 
-* Para descargar la imágen ejecutamos lo siguiente: 
+1. Descargar la imágen: 
     ```
     sudo docker pull manu33/wcsim:1.2
     ```
-1. Descargamos los archivos: **Npz_files** y **Geometry** que se encuentran en este repositorio.
-2. Creamos un directorio en nuestra máquina local que contenga los 2 archivos anteriores, puedes llamarlo como prefieras, para este ejemplo el nombre del directorio es: **IMAGE-DATA**.
-3. El directorio **Npz_files** contiene archivos **.npz** de prueba, sustituyelos por los archivos que vas a procesar.
+2. Dentro del directorio **data/Npz_files** se encuentran 3 archivos **.npz** de prueba a ejecutar. Puedes sustituirlos por tus propios archivos **.npz**.
 
-4. Una vez ubicada la ruta del directorio anterior, crear un contenedor para ligar la carpeta creada (IMAGE-DATA) al contenedor:
+3. El directorio **data/Geometry** se encuentrar un script **npy** necesario para ejecutar la rutina de python.
+
+4. Una vez ubicada la ruta del paso 2 y 3, crear un contenedor para vincular el directorio local **/data** al contenedor 
     
     ```
-    sudo docker run -v /home/many/Escritorio/IMAGE-DATA/:/home/neutrino/IMAGE-DATA/ -d -it --name=WCSim manu33/wcsim:1.2  
+    sudo docker run -v /home/user/Cads_WCSim_Container/data/:/home/neutrino/data/ -d -it --name=WCSim manu33/wcsim:1.2  
     ```
 
-    * **/home/many/Escritorio/IMAGE-DATA/** ruta del directorio local a vincular.
-    * **/home/neutrino/IMAGE-DATA/** es la ruta del directorio compartido dentro del contenedor.
-    * **--name** nos permite darle un nombre al contenedor, en este caso es: **WCSim**.
+    * **/home/user/Cads_WCSim_Container/data/**: Ruta del directorio local a vincular. Cambiar la ruta de acuerdo a tu usuario.
+    * **/home/neutrino/data/**: Ruta del directorio compartido dentro del contenedor.
+    * **--name= WCSim**: Nombre del contenedor.
 
-5. Corremos la instrucción que convertirá los archivos .npz del directorio Npz_files a ".npy"
-  * La instrucción toma 3 archivos:
+5. Corremos la instrucción que convertirá los archivos **.npz** a **.npy**.
+
+  * La instrucción toma 3 parámetros:
   
-      * **npz_to_image.py** : se encuentra en la siguiente carpeta dentro del contenedor -> _"/home/Tools_HKM/npz_to_image.py"_
-      * **IWCD_geometry_mPMT.npy** : se encuentra en nuestra carpeta compartida dentro del contenedor -> _"/home/neutrino/ImageData/Geometry"_
-      * **< archivos >.npz** : se encuentran en nuestra carpeta compatida dentro del contenedor -> _"/home/neutrino/ImageData/Npz_files"_
-
+      * **npz_to_image.py** : se encuentra en la siguiente carpeta dentro del contenedor **_"/home/Tools_HKM/npz_to_image.py"_**.
+      * **IWCD_geometry_mPMT.npy** : se encuentra en nuestra carpeta compartida dentro del contenedor **_"/home/neutrino/data/Geometry"_**.
+      * **< archivos >.npz** : se encuentran en nuestra carpeta compatida dentro del contenedor **_"/home/neutrino/data/Npz_files"_**.
       
     ```
-    sudo docker exec -it WCSim bash -c "rm /home/neutrino/software/WCSim_build/*.npy;python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/IMAGE-DATA/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/IMAGE-DATA/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/IMAGE-DATA/" 
+    sudo docker exec -it WCSim bash -c "rm /home/neutrino/software/WCSim_build/*.npy;python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/data/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/data/Npz_files/; mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/data/Npy_files" 
     ```
-6. Después de este paso podemos visualizar en nuestro directorio IMAGE-DATA los archivos de salida **.npy**
+
+    #### **Nota:** En la intruccón que se ejecuta, podemos procesar también un solo archivo **npz**, cambiando el argumento **-d** por **-f** seguido de la ruta del archivo **npz**.
+
+Después de este paso podemos visualizar en nuestro directorio **data/Npy_files** los archivos de salida **.npy**
+___
+
+# **Docker Compose**
+**Docker compose** se instala al momento de descargar **Docker Engine** en la página oficial. La versión de **Docker compose** utilizada es **2.6.0**. 
+___
+
+## **Convertir archivo .mac a .root**
+1. El directorio **data/mac_files** contiene un archivo **.mac** de prueba para ejecutar el proceso. 
+
+2. Moverse al directorio **docker_compose/process_mac** ahi se encuentra el archivo **mac_root.yaml** que contiene la configuración. Si tienes conocimientos de Docker compose puedes cambiar a tu manera el archivo **.yaml**.
+
+3. Ejecutar el siguiente comando para levantar el servicio:
+
+    ```
+    sudo docker compose -f mac_root.yaml up
+    ```
+4. Una vez ejecutado el comando y finalizado el proceso, visualizar el directorio local **data/root_files** que contiene el archivo(s) **.root** generado(s).
+
+___
+## **Convertir archivo .root a .npz con rutina de pyhton**
+
+1. El directorio **data/root_files** está creado para almacenar archivos **.root**, si no tienes ninguno de prueba, ejecuta el proceso **Convertir archivo .mac a .root**.   
+
+2. Moverse al directorio **docker_compose/process_root** ahi se encuentra el archivo **root_npz.yaml** que contiene la configuración. Si tienes conocimientos de Docker compose puedes cambiar a tu manera el archivo **.yaml**.
+
+3. Ejecutar el siguiente comando para levantar el servicio:
+
+    ```
+    sudo docker compose -f root_npz.yaml up
+    ```
+4. Una vez ejecutado el comando y finalizado el proceso, visualizar el directorio local **data/Npz_files** que contiene el archivo(s) **.npz** generado(s).
+___
+## **Convertir archivo .npz a .npy (Npz_to_Image)**
+
+1. El directorio **data/Npz_files** está creado para almacenar archivos **.npz**, dentro del directorio hay 3 archivos de prueba para ser utilizados. 
+
+2. Moverse al directorio **docker_compose/process_npz** ahi se encuentra el archivo **npz_npy.yaml** que contiene la configuración. Si tienes conocimientos de Docker compose puedes cambiar a tu manera el archivo **.yaml**.
+
+3. Ejecutar el siguiente comando para levantar el servicio:
+
+    ```
+    sudo docker compose -f npz_npy.yaml up
+    ```
+    
+    Este proceso tarda algunos minutos, en finalizar.
+
+4. Una vez ejecutado el comando y finalizado el proceso, visualizar el directorio local **data/Npy_files** que contiene el archivo(s) **.npy** generado(s).
 ___
 # **Singularity** 
 
-Una vez instalado Singularity [instalación versión 3.5.3](https://github.com/NIH-HPC/Singularity-Tutorial/tree/2020-03-10/00-installation) procedemos a realizar lo siguiente:
+Versión de Singularity utilizada: [instalación versión 3.5.3](https://github.com/NIH-HPC/Singularity-Tutorial/tree/2020-03-10/00-installation) procedemos a realizar lo siguiente:
 
 Utilizaremos la imagen de WCSim que se encuentra en [Dockerhub](https://hub.docker.com/r/manu33/wcsim).
 ___
@@ -133,14 +174,14 @@ ___
   **Nota**:
         En singularity es importante utilizar sudo en cada instrucción, esto para poder tener permisos de superusuario dentro del contenedor.
 
-1. Al momento de descargar la imagen la convertiremos en un _directory sandbox_(directorio de lectura y escritura) para poder modificar nuestro contenedor.
+1. Al momento de descargar la imágen la convertiremos en un _directory sandbox_ (directorio de lectura y escritura) para poder modificar nuestro contenedor.
 
     ```
     sudo singularity build --sandbox wcsim-dir/ docker://manu33/wcsim:1.2
     ```
-    **wcsim-dir** es el nombre del directorio _sandbox_ (puedes cambiar el nombre si lo deseas). 
+    * **wcsim-dir** es el nombre del directorio _sandbox_ (puedes cambiar el nombre si lo deseas). 
     
-    Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
+        Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
 
 2. Ubicar el archivo .mac a convertir y almacenarlo en una carpeta. En este ejemplo el archivo .mac se encuentra en la carpeta **wcsim/mac_files/** en nuestra máquina local.
 
@@ -239,19 +280,12 @@ ___
 ___
 ## **Estructura de carpetas dentro del contenedor**
 
-* **/home/neutrino:** _usuario_
-* **/home/neutrino/software/run.sh:**  _script que ejecuta las variables de entorno_
-* **/home/WatChMal/DataTools/*.py:** _modulos de python_
-* **/home/Tools_HKM/npz_to_image.py**
+* **/home/neutrino:** _usuario_.
+* **/home/neutrino/software/run.sh:**  _script que ejecuta las variables de entorno_.
+* **/home/WatChMal/DataTools/*.py:** _modulos de python_.
+* **/home/Tools_HKM/npz_to_image.py:** script para ejecutar proceso **npz a npy**.
 * **/home/neutrino/software/WCSim_build :** _ruta donde se guardan por defecto archivos de salida ".root" y ".npy"_
-
-## **Directorios de prueba**
-* **/wcsim/mac_files/WCSim.mac:** _archivo .mac de prueba_. 
-
-  **Nota:** (se puede cambiar el nombre del directorio si el usuario lo desea), (el archivo .mac de prueba quitarlo y poner un .mac personalizado).
-* **/Npz_files :** archivos _.npz_ de prueba.
-* **/Geometry/IWCD_geometry_mPMT.npy**
 ___
-## Maintained by:
-Many (CADS)
+## **Maintained by:**
+Jesús Manuel Alemán González (Many) (CADS) 
 
