@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  mac_to_root:
+    image: manu33/wcsim:1.2
+    command: bash -c "cd /home/neutrino/software; source run.sh; 
+            ./WCSim /home/neutrino/data/mac_files/WCSim.mac; 
+            mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/neutrino/data/root_files" 
+    volumes:
+      - ../../data:/home/neutrino/data
+  

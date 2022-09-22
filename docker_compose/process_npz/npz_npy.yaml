@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  npz_to_npy:
+    image: manu33/wcsim:1.2
+    command: bash -c "rm /home/neutrino/software/WCSim_build/*.npy;
+            python3 /home/Tools_HKM/npz_to_image.py -m /home/neutrino/data/Geometry/IWCD_geometry_mPMT.npy -d /home/neutrino/data/Npz_files/; 
+            mv /home/neutrino/software/WCSim_build/*.npy /home/neutrino/data/Npy_files"
+    volumes:
+      - ../../data:/home/neutrino/data
