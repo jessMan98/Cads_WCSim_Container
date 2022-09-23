@@ -165,7 +165,7 @@ ___
 ___
 # **Singularity** 
 
-Versión de Singularity utilizada: [instalación versión 3.5.3](https://github.com/NIH-HPC/Singularity-Tutorial/tree/2020-03-10/00-installation) procedemos a realizar lo siguiente:
+Versión de Singularity utilizada: [instalación versión 3.5.3](https://github.com/NIH-HPC/Singularity-Tutorial/tree/2020-03-10/00-installation).
 
 Podemos utilizar la imágen de WCSim que se encuentra en [Dockerhub](https://hub.docker.com/r/manu33/wcsim), o la imágen que se encuentra en el Repositorio de Singularity [Library](https://cloud.sylabs.io/library/many33/default/wcsim)
 ___
