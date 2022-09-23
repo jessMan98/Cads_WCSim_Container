@@ -285,5 +285,5 @@ ___
 * **/home/neutrino/software/WCSim_build :** _ruta donde se guardan por defecto archivos de salida ".root" y ".npy"_
 ___
 ## **Maintained by:**
-Jesús Manuel Alemán González (Many) (CADS) 
+:man_technologist: Jesús Manuel Alemán González (Many) (CADS) 
 
