@@ -4,7 +4,6 @@ services:
     image: manu33/wcsim:1.2
     command: bash -c "cd /home/neutrino/software; 
              source run.sh; cd /home/WatChMal/DataTools; 
-             time python3 event_dump.py /home/neutrino/data/root_files/wcsim_output.root;
-             mv /home/neutrino/data/root_files/wcsim_output.npz /home/neutrino/data/Npz_files"
+             time python3 event_dump.py /home/neutrino/data/root_files/wcsim_output.root -d /home/neutrino/data/Npz_files"
     volumes:
       - ../../data:/home/neutrino/data
