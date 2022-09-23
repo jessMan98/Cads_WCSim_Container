@@ -74,7 +74,7 @@ La imágen de WCSim a utilizar: [Dockerhub](https://hub.docker.com/r/manu33/wcsi
 
 **Ejecutamos la instrucción:**
 
-    sudo docker exec -it WCSim bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/data/root_files/wcsim_output.root; mv /home/neutrino/data/root_files/wcsim_output.npz /home/neutrino/data/Npz_files"
+    sudo docker exec -it WCSim bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/neutrino/data/root_files/wcsim_output.root -d /home/neutrino/data/Npz_files"
   
 Enseguida si visualizamos en nuestra máquina local el directorio **/data/root_files/** aparecerá un archivo comprimido **".npz"** resultado de la rutina ejecutada en python.
 ___
@@ -167,14 +167,14 @@ ___
 
 Versión de Singularity utilizada: [instalación versión 3.5.3](https://github.com/NIH-HPC/Singularity-Tutorial/tree/2020-03-10/00-installation) procedemos a realizar lo siguiente:
 
-Utilizaremos la imagen de WCSim que se encuentra en [Dockerhub](https://hub.docker.com/r/manu33/wcsim).
+Podemos utilizar la imágen de WCSim que se encuentra en [Dockerhub](https://hub.docker.com/r/manu33/wcsim), o la imágen que se encuentra en el Repositorio de Singularity [Library](https://cloud.sylabs.io/library/many33/default/wcsim)
 ___
 ## **Convertir archivo _.mac_ a _.root_** 
 
   **Nota**:
         En singularity es importante utilizar sudo en cada instrucción, esto para poder tener permisos de superusuario dentro del contenedor.
 
-1. Al momento de descargar la imágen la convertiremos en un _directory sandbox_ (directorio de lectura y escritura) para poder modificar nuestro contenedor.
+1. Al momento de descargar la imágen la convertiremos en un _directory sandbox_ (directorio de lectura y escritura) para poder modificar nuestro contenedor. Nos posicionamos en el mismo nivel de nuestro repositorio.
 
     ```
     sudo singularity build --sandbox wcsim-dir/ docker://manu33/wcsim:1.2
@@ -183,9 +183,9 @@ ___
     
         Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
 
-2. Ubicar el archivo .mac a convertir y almacenarlo en una carpeta. En este ejemplo el archivo .mac se encuentra en la carpeta **wcsim/mac_files/** en nuestra máquina local.
+2. Dentro del directorio **data/mac_files/** en nuestra máquina local, se encuentra el archivo **.mac** de prueba. 
 
-3. Creamos un directorio dentro del contenedor el cual lo utilizaremos como carpeta compartida.
+3. Creamos un directorio dentro del contenedor llamado **shared-folder** el cual lo vincularemos con el directorio **data** de nuestra máquina local. Puedes cambiarle el nombre si lo deseas. 
     ```
     sudo singularity exec --writable wcsim-dir/ /bin/bash -c "mkdir /home/shared-folder"
     ```
@@ -194,17 +194,17 @@ ___
 
 4. En seguida procedemos a ejecutar WCSim con el siguiente comando:
     ```
-    sudo singularity exec --writable --bind /home/many/Escritorio/wcsim:/home/shared-folder wcsim-dir/ /bin/bash -c "cd /home/neutrino/software; source run.sh; cd $SOFTWARE/WCSim_build; ./WCSim /home/shared-folder/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/shared-folder/mac_files"
+    sudo singularity exec --writable --bind /home/user/Cads_WCSim_Container/data:/home/shared-folder wcsim-dir/ /bin/bash -c "cd /home/neutrino/software; source run.sh;./WCSim /home/shared-folder/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/shared-folder/root_files"
     ```
     
     En la instrucción anterior:
     *  **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
     * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
     * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
-    * _/home/many/Escritorio/wcsim_(ruta maquina local):_/home/shared-folder_(ruta contenedor).
+    * Donde: **_/home/user/Cads_WCSim_Container/data_** (ruta máquina local):**_/home/shared-folder_** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
     * **wcsim-dir** es el sandbox(contenedor) creado en el paso 1.
 
-Una vez finalizado el paso anterior podremos visualizar nuestro archivo _.root_ dentro de la carpeta comapartida en nuestra máquina local (**_wcsim/mac_files_**).
+Una vez finalizado el paso anterior podremos visualizar nuestro archivo **.root** dentro de la carpeta **_data/root_files_**.
 ___
 
 ## **Convertir archivo _.root_ a _.npz_ con rutina de python**
@@ -217,7 +217,7 @@ ___
     
     Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
 
-2. Ubicar el archivo **.root** a convertir y almacenarlo en una carpeta. En este ejemplo el archivo **.root** se encuentra en la carpeta **wcsim/mac_files/** en nuestra máquina local.
+2. El directorio **data/root_files/** contiene los archivos **.root**, si no hay ninguno puedes ejecutar el paso **Convertir archivo .mac a .root**, o de lo contrario agrega tus archivos **.root** personalizados.  
 
 3. Creamos un directorio en nuestro contenedor el cual lo utilizaremos como carpeta compartida.
     ```
@@ -228,17 +228,17 @@ ___
 
 4. Ejecutamos la rutina:
     ```
-    sudo singularity exec --writable --bind /home/many/Escritorio/wcsim:/home/shared-folder wcsim-dir/ /bin/bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/shared-folder/mac_files/wcsim_output.root /home/shared-folder/mac_files"
+    sudo singularity exec --writable --bind /home/user/Cads_WCSim_Container/data:/home/shared-folder wcsim-dir/ /bin/bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/shared-folder/root_files/wcsim_output.root -d /home/shared-folder/Npz_files"
     ```
     En la instrucción anterior:
     *  **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
     * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
     * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
-    * **_/home/many/Escritorio/wcsim_**(ruta máquina local):**_/home/shared-folder_**(ruta dentro del contenedor).
+    * Donde: **/home/user/Cads_WCSim_Container/data** (ruta máquina local):**/home/shared-folder** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
     * **wcsim-dir** es el sandbox(contenedor) creado en el paso 1.
-    * rutina de python que se ejecuta **_event_dump.py_**
+    * Rutina de python que se ejecuta **_event_dump.py_**
 
-   Una vez finalizado el paso anterior podremos visualizar nuestro archivo _.npz_ dentro de la carpeta compartida en nuestra máquina local (**_wcsim/mac_files_**).
+   Una vez finalizado el paso anterior podremos visualizar nuestro archivo **.npz** dentro del directorio **data/Npz_files** en nuestra máquina local.
 ___
 ## **Convertir archivo .npz a .npy (Npz_to_Image)**
 
@@ -251,32 +251,30 @@ ___
     
     Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
 
-2. Descargar los directorios **Npz_files** y **Geometry** que se encuentran en el repositorio. 
+2. En el directorio **data/Npz_files** se encuentran archivos **_.npz_** de ejemplo. Puedes sustituirlos por tus archivos **_.npz_**. 
 
-    *   En el directorio **Npz_files** se encuentran archivos _.npz_ de ejemplo (sustituirlos por archivos tus archivos _.npz_). 
+3. El directorio **data/Geometry** se encuentrar un script **.npy** necesario para ejecutar la rutina de python
 
-    *   Crear un directorio llamado **IMAGE-DATA** (puedes cambiarle el nombre) y almacenar los dos directorios anteriores.
-
-3. Creamos un directorio en nuestro contenedor el cual lo utilizaremos como carpeta compartida.
+4. Creamos un directorio en nuestro contenedor el cual lo utilizaremos como carpeta compartida.
     ```
     sudo singularity exec --writable wcsim-dir/ /bin/bash -c "mkdir /home/shared-folder"
     ```
 
     Para este ejemplo el nombre de la carpeta es: **'shared-folder'** y se encuentra en **/home** dentro del contenedor.
 
-4. Ejecutamos la instrucción:
+5. Ejecutamos la instrucción:
     ```
-    sudo singularity exec --writable --bind /home/many/Escritorio/IMAGE-DATA:/home/shared-folder wcsim-dir/ /bin/bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/shared-folder/Geometry/IWCD_geometry_mPMT.npy -d /home/shared-folder/Npz_files/; mv ~/*.npy /home/shared-folder"
+    sudo singularity exec --writable --bind /home/user/Cads_WCSim_Container/data:/home/shared-folder wcsim-dir/ /bin/bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/shared-folder/Geometry/IWCD_geometry_mPMT.npy -d /home/shared-folder/Npz_files/; mv ~/*.npy /home/shared-folder/Npy_files"
     ```
     En la instrucción anterior:
     *  **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
     * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
     * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
-    * **_/home/many/Escritorio/IMAGE-DATA_**(ruta máquina local):**_/home/shared-folder_**(ruta dentro del contenedor).
+    * Donde: **/home/user/Cads_WCSim_Container/data** (ruta máquina local):**/home/shared-folder** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
     * **wcsim-dir** es el sandbox(contenedor) creado en el paso 1.
     * Rutina de python que se ejecuta **_npz_to_image.py_**
 
-    Una vez finalizada la instrucción, podremos visualizar nuestros archivos _.npy_ dentro de la carpeta compartida en nuestra máquina local (**_IMAGE-DATA_**).
+    Una vez finalizada la instrucción, podremos visualizar nuestros archivos **_.npy_** dentro del directorio **data/Npy_files**  en nuestra máquina local.
 ___
 ## **Estructura de carpetas dentro del contenedor**
 
