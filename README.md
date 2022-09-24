@@ -384,6 +384,54 @@ ___
 
     Una vez finalizada la instrucción, podremos visualizar nuestros archivos **_.npy_** dentro del directorio **data/Npy_files**  en nuestra máquina local.
 ___
+# **Singularity utilizando Instancias**
+Una **Instancia** es una versión persistente y aislada de la imágen del contenedor que se ejecuta en segundo plano. También las podemos llamar **servicios**. Para la creación de instancias podemos usar **sudo** o **fakeroot**.
+___
+## **Convertir archivo _.mac_ a _.root_** 
+
+1. Creamos un _directory sandbox_ (directorio de lectura y escritura) para poder modificar el contenedor.
+
+    ```
+    singularity build --fakeroot --sandbox wcsim-dir docker://manu33/wcsim:1.2
+    ```
+2. Dentro del directorio **data/mac_files/** en nuestra máquina local, se encuentra el archivo **.mac** de prueba.
+
+3. Creamos un directorio dentro del contenedor llamado shared-folder el cual lo vincularemos con el directorio data de nuestra máquina local. Puedes cambiarle el nombre si lo deseas.
+
+    ```
+    singularity exec --fakeroot --writable wcsim-dir/ /bin/bash -c "mkdir /home/shared-folder"
+    ```
+4. Creamos la instancia y vinculamos el directorio **data**:
+
+    ```
+    singularity instance start --fakeroot --writable --bind /home/user/Cads_WCSim_Container/data/:/home/shared-folder wcsim-dir/ wcsim 
+    ```
+
+    * Nuestra Instancia se llamará **wcsim**
+    * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
+    *  Donde: **/home/user/Cads_WCSim_Container/data** (ruta máquina local):**/home/shared-folder** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
+
+5. Con el siguiente comando podemos observar la instancia creada:
+
+    ```
+    singularity instance list
+    ```
+6. Procedemos a ejecutar WCSim con el siguiente comando:
+
+    ```
+    singularity exec --fakeroot --writable instance://wcsim /bin/bash -c "cd /home/neutrino/software; source run.sh; ./WCSim /home/shared-folder/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/shared-folder/root_files"
+
+    ```
+    En la instrucción anterior:
+
+    * **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
+    * **--fakeroot** modo raíz falso.
+    * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
+    * **instance://wcsim** llamamos a la instancia creada.
+    
+Una vez finalizado el paso anterior podremos visualizar nuestro archivo **.root** dentro de la carpeta **_data/root_files_**.
+___
+
 ## **Estructura de carpetas dentro del contenedor**
 
 * **/home/neutrino:** _usuario_.
