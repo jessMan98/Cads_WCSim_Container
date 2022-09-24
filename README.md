@@ -276,6 +276,114 @@ ___
 
     Una vez finalizada la instrucción, podremos visualizar nuestros archivos **_.npy_** dentro del directorio **data/Npy_files**  en nuestra máquina local.
 ___
+# **Singularity utilizando --fakeroot**
+La bandera **--fakeroot** (modo sin raíz) permite que un usuario sin privilegios ejecute un contenedor como un usuario **“raíz falso”**. Esta caracteristica la podemos utilizar por ejemplo, en un ambiente de Supercomputo en donde por lo general no tenemos privilegios de superusuario.
+____
+## **Convertir archivo _.mac_ a _.root_** 
+
+1. Creamos un _directory sandbox_ (directorio de lectura y escritura) para poder modificar el contenedor.
+
+    ```
+    singularity build --fakeroot --sandbox wcsim-dir docker://manu33/wcsim:1.2
+    ```
+2. Dentro del directorio **data/mac_files/** en nuestra máquina local, se encuentra el archivo **.mac** de prueba.
+
+3. Creamos un directorio dentro del contenedor llamado shared-folder el cual lo vincularemos con el directorio data de nuestra máquina local. Puedes cambiarle el nombre si lo deseas.
+
+    ```
+    singularity exec --fakeroot --writable wcsim-dir/ /bin/bash -c "mkdir /home/shared-folder"
+    ```
+4. En seguida procedemos a ejecutar WCSim con el siguiente comando:
+
+    ```
+    singularity exec --fakeroot  --writable --bind /home/user/Cads_WCSim_Container/data:/home/shared-folder wcsim-dir/ /bin/bash -c "cd /home/neutrino/software; source run.sh;./WCSim /home/shared-folder/mac_files/WCSim.mac; mv /home/neutrino/software/WCSim_build/wcsim_output.root /home/shared-folder/root_files"
+    ```
+    En la instrucción anterior:
+
+    * **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
+    * **--fakeroot** modo raíz falso.
+    * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
+    * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
+    * Donde: **/home/user/Cads_WCSim_Container/data** (ruta máquina local):**/home/shared-folder** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
+    * **wcsim-dir** es el sandbox(contenedor) creado en el paso 1.
+
+Una vez finalizado el paso anterior podremos visualizar nuestro archivo **.root** dentro de la carpeta **_data/root_files_**.
+___
+## **Convertir archivo _.root_ a _.npz_ con rutina de python**
+1. Al momento de descargar la imágen la convertiremos en un _directory sandbox_(directorio de lectura y escritura) para poder modificar nuestro contenedor.
+
+    ```
+    singularity build --fakeroot --sandbox wcsim-dir docker://manu33/wcsim:1.2
+    ```
+    **wcsim-dir** es el nombre del directorio _sandbox_ (puedes cambiar el nombre si lo deseas). 
+    
+    Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
+
+2. El directorio **data/root_files/** contiene los archivos **.root**, si no hay ninguno puedes ejecutar el paso **Convertir archivo .mac a .root**, o de lo contrario agrega tus archivos **.root** personalizados.  
+
+3. Creamos un directorio en nuestro contenedor el cual lo utilizaremos como carpeta compartida.
+    
+    ```
+    singularity exec --fakeroot --writable wcsim-dir/ /bin/bash -c "mkdir /home/shared-folder"
+    ```
+
+    Para este ejemplo el nombre de la carpeta es: **'shared-folder'** y se encuentra en **/home** dentro del contenedor.
+
+4. Ejecutamos la rutina:
+    
+    ```
+    singularity exec --fakeroot --writable --bind /home/user/Cads_WCSim_Container/data:/home/shared-folder wcsim-dir/ /bin/bash -c "cd /home/neutrino/software; source run.sh; cd /home/WatChMal/DataTools; time python3 event_dump.py /home/shared-folder/root_files/wcsim_output.root -d /home/shared-folder/Npz_files"
+    ```
+    
+    En la instrucción anterior:
+    *  **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
+    * **--fakeroot** modo raíz falso.
+    * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
+    * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
+    * Donde: **/home/user/Cads_WCSim_Container/data** (ruta máquina local):**/home/shared-folder** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
+    * **wcsim-dir** es el sandbox(contenedor) creado en el paso 1.
+    * Rutina de python que se ejecuta **_event_dump.py_**
+
+   Una vez finalizado el paso anterior podremos visualizar nuestro archivo **.npz** dentro del directorio **data/Npz_files** en nuestra máquina local.
+___
+## **Convertir archivo .npz a .npy (Npz_to_Image)**
+
+1. Al momento de descargar la imágen la convertiremos en un _directory sandbox_(directorio de lectura y escritura) para poder modificar nuestro contenedor.
+
+    ```
+    singularity build --fakeroot --sandbox wcsim-dir/ docker://manu33/wcsim:1.2
+    ```
+    **wcsim-dir** es el nombre del directorio _sandbox_ (puedes cambiar el nombre si lo deseas). 
+    
+    Una vez ejecutada la instrucción, podemos visualizar en nuestra máquina local el directorio **wcsim-dir**.
+
+2. En el directorio **data/Npz_files** se encuentran archivos **_.npz_** de ejemplo. Puedes sustituirlos por tus archivos **_.npz_**. 
+
+3. El directorio **data/Geometry** se encuentrar un script **.npy** necesario para ejecutar la rutina de python
+
+4. Creamos un directorio en nuestro contenedor el cual lo utilizaremos como carpeta compartida.
+    
+    ```
+    singularity exec --fakeroot --writable wcsim-dir/ /bin/bash -c "mkdir /home/shared-folder"
+    ```
+
+    Para este ejemplo el nombre de la carpeta es: **'shared-folder'** y se encuentra en **/home** dentro del contenedor.
+
+5. Ejecutamos la instrucción:
+    ```
+    singularity exec --fakeroot --writable --bind /home/user/Cads_WCSim_Container/data:/home/shared-folder wcsim-dir/ /bin/bash -c "python3 /home/Tools_HKM/npz_to_image.py -m /home/shared-folder/Geometry/IWCD_geometry_mPMT.npy -d /home/shared-folder/Npz_files/; mv ~/*.npy /home/shared-folder/Npy_files"
+    ```
+    En la instrucción anterior:
+    *  **exec** se utiliza para ejecutar comandos desde fuera del contenedor.
+    * **--fakeroot** modo raíz falso.
+    * **--writable** se utiliza para poder hacer modificaciones dentro del contenedor.
+    * **--bind** nos permite vincular la carpeta de nuestra máquina local al contenedor.
+    * Donde: **/home/user/Cads_WCSim_Container/data** (ruta máquina local):**/home/shared-folder** (ruta contenedor). Cambiar la ruta local de acuerdo a tu usuario.
+    * **wcsim-dir** es el sandbox(contenedor) creado en el paso 1.
+    * Rutina de python que se ejecuta **_npz_to_image.py_**
+
+    Una vez finalizada la instrucción, podremos visualizar nuestros archivos **_.npy_** dentro del directorio **data/Npy_files**  en nuestra máquina local.
+___
 ## **Estructura de carpetas dentro del contenedor**
 
 * **/home/neutrino:** _usuario_.
